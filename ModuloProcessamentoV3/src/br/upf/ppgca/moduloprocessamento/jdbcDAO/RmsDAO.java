@@ -12,10 +12,10 @@ public class RmsDAO {
 		this.con = con;
 	}
 
-	public void inserir(Integer codev, double variacaoRMS) {
-		String sql = "INSERT INTO rms_identific(codev,rms_identific) VALUES(?,?)";
+	public void inserir(Integer event_cod, double variacaoRMS) {
+		String sql = "INSERT INTO rms_identific(event_cod,rms_identific) VALUES(?,?)";
 		try(PreparedStatement pstmt = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS)){
-			pstmt.setInt(1,codev);
+			pstmt.setInt(1,event_cod);
 			pstmt.setDouble(2, variacaoRMS);
 			pstmt.execute();
 		} catch (SQLException e) {
@@ -25,9 +25,9 @@ public class RmsDAO {
 		
 	}
 
-	public Double consultarRMS(int codev) {
-		try (PreparedStatement pstmt = con.prepareStatement("SELECT rms_identific FROM rms_identific WHERE codev = ?", Statement.RETURN_GENERATED_KEYS)) {
-			pstmt.setInt(1, codev);
+	public Double consultarRMS(int event_cod) {
+		try (PreparedStatement pstmt = con.prepareStatement("SELECT rms_identific FROM rms_identific WHERE event_cod = ?", Statement.RETURN_GENERATED_KEYS)) {
+			pstmt.setInt(1, event_cod);
 			pstmt.execute();
 
 			ResultSet result = pstmt.getResultSet();

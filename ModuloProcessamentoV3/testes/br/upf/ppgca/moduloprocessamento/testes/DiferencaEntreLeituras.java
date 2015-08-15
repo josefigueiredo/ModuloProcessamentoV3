@@ -13,7 +13,7 @@ public class DiferencaEntreLeituras {
 		for(int i=0;i<atual.getLeitura().size();i++) {
 			diferencaEntreValores.add(atual.getLeitura().get(i) - anterior.getLeitura().get(i)); 
 		}
-		return new Leitura(atual.getNomeSensor(),atual.getHorarioLeitura(),atual.getVolts(),diferencaEntreValores);
+		return new Leitura(atual.getCodigoSensor(),atual.getHorarioLeitura(),atual.getVolts(),diferencaEntreValores);
 	}
 	
 

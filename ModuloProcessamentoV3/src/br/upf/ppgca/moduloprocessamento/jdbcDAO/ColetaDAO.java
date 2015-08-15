@@ -13,12 +13,12 @@ public class ColetaDAO {
 		this.con = con;
 	}
 	
-	public void inserir(Integer codev, List<Double> list){
-		String sqlToColetas = "INSERT INTO coletas_evento(codev,pos_vetor,valor_lido) VALUES (?,?,?)";
+	public void inserir(Integer event_cod, List<Double> list){
+		String sqlToColetas = "INSERT INTO coletas_evento(event_cod,pos_vetor,valor_lido) VALUES (?,?,?)";
 		int pos_vetor=0;
 		for (Double valor : list) {
 			try(PreparedStatement stmp =con.prepareStatement(sqlToColetas,Statement.RETURN_GENERATED_KEYS)){
-				stmp.setInt(1, codev);
+				stmp.setInt(1, event_cod);
 				stmp.setInt(2, pos_vetor++);
 				stmp.setDouble(3, valor);
 				stmp.execute();

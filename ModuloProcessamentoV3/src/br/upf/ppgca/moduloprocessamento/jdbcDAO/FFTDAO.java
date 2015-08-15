@@ -14,12 +14,12 @@ public class FFTDAO {
 		this.con = con;
 	}
 
-	public void insere(Integer codev, Complex[] resultFFT) {
-		String sqlToFFT = "INSERT INTO fft_evento(CODEV,POS_VETOR,SEN_VAL,COS_VAL) VALUES (?,?,?,?)";
+	public void insere(Integer event_cod, Complex[] resultFFT) {
+		String sqlToFFT = "INSERT INTO fft_evento(event_cod,POS_VETOR,SEN_VAL,COS_VAL) VALUES (?,?,?,?)";
 		try (PreparedStatement stmp = con.prepareStatement(sqlToFFT, Statement.RETURN_GENERATED_KEYS)) {
 			int pos = 0;
 			for (Complex inserir : resultFFT) {
-				stmp.setInt(1, codev);
+				stmp.setInt(1, event_cod);
 				stmp.setInt(2, pos++);
 				stmp.setDouble(3, inserir.getImaginary());
 				stmp.setDouble(4, inserir.getReal());

@@ -18,13 +18,14 @@ public class LeituraDAO {
 	}
 
 	public Integer inserir(Leitura toInsert, double rmsCalculado, boolean tipo) throws SQLException {
-		String sqlToLeitura = "INSERT INTO leitura(sensor_name,timestamp,rms,tipo) VALUES (?,?,?,?)";
+		String sqlToLeitura = "INSERT INTO leitura(,timestamp,rms,tipo,sensor_cod) VALUES (?,?,?,?,?)";
 		Integer codGerado = null;
 		try(PreparedStatement stmp = con.prepareStatement(sqlToLeitura,Statement.RETURN_GENERATED_KEYS)){
-			stmp.setString(1, toInsert.getNomeSensor());
-			stmp.setTimestamp(2, toInsert.getHorarioLeitura());
-			stmp.setDouble(3, rmsCalculado);
-			stmp.setBoolean(4, tipo);
+			stmp.setDouble(1, rmsCalculado);
+			stmp.setBoolean(2, tipo);
+			stmp.setDouble(3, toInsert.getVolts());
+			stmp.setTimestamp(4, toInsert.getHorarioLeitura());
+			stmp.setInt(5, toInsert.getCodigoSensor());
 			stmp.execute();
 			try(ResultSet res = stmp.getGeneratedKeys()){
 				if(res.next()) {

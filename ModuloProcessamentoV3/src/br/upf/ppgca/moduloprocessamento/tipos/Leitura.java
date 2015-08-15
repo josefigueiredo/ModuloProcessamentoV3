@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Leitura {
 	//nomeSenor deve identificar qual sensor foi usado para a medida (no caso poderemos ter muitos sensores)
-	private String nomeSensor = new String();
+	private int CodigoSensor;
 	
 	//voltagem da rede no momento da leitura
 	private double volts;
@@ -18,9 +18,9 @@ public class Leitura {
 	//leitura corresponde ao vetor de leituras enviado pelo modulo coleta
 	private List<Double> leitura = new ArrayList<Double>();
 
-	public Leitura(String nomeSensor, Timestamp horarioLeitura, Double volts, List<Double> leitura) {
+	public Leitura(int sensor, Timestamp horarioLeitura, Double volts, List<Double> leitura) {
 		super();
-		this.setNomeSensor(nomeSensor);
+		this.setCodigoSensor(sensor);
 		this.setHorarioLeitura(horarioLeitura);
 		this.setVolts(volts);
 		this.leitura = leitura;
@@ -34,12 +34,12 @@ public class Leitura {
 		this.leitura = leitura;
 	}
 
-	public String getNomeSensor() {
-		return nomeSensor;
+	public int  getCodigoSensor() {
+		return CodigoSensor;
 	}
 
-	public void setNomeSensor(String nomeSensor) {
-		this.nomeSensor = nomeSensor;
+	public void setCodigoSensor(int sensor) {
+		this.CodigoSensor = sensor;
 	}
 
 	public Timestamp getHorarioLeitura() {

@@ -11,25 +11,28 @@ import br.upf.ppgca.moduloprocessamento.tipos.Leitura;
 
 public class TratamentoSinal {
 
-	public static Leitura executarTratamentos(String strRecebidaPeloSocket, double ganhoSensorFase, double fatorCalculoTensao) {
+	public static Leitura executarTratamentos(String strRecebidaPeloSocket, double ganhoSensorFase, int ganhoDiferencial, int valorResistor) {
 		// TODO Auto-generated method stub
 		String[] partes, valores;
-		String valor = null, sensor = null;
+		String valor = null;
+		int sensor;
 		Timestamp timestamp;
 		double volts;
 		Calendar calendario = Calendar.getInstance();
 		Date agora = calendario.getTime();
 		partes = strRecebidaPeloSocket.split(":");
 
-		sensor = partes[0].toString(); // primeiro campo enviado pelo arduino corresponde ao sensor.
+		sensor = Integer.parseInt(partes[0].toString()); // primeiro campo enviado pelo arduino corresponde ao sensor.
 		//converte para voltagem da leitura
-		volts = Integer.parseInt(partes[1].toString()) /10 / fatorCalculoTensao ; // segundo campo corresponde aos volts (deve dividir por 10 para converter para double)
+		volts = (double)Integer.parseInt(partes[1].toString()) /10 / ganhoDiferencial * valorResistor; // segundo campo corresponde aos volts (deve dividir por 10 para converter para double)
 		timestamp = new Timestamp(agora.getTime());
 		valor = partes[2].toString();
 		valores = valor.split(",");
 		
-		//System.out.println("Voltagem lida: "+volts);
-		
+		if(ModuloProcessamento.dbValorTensao) {
+			System.out.println("Voltagem lida: "+volts);
+		}
+			
 		//converter para double antes de remover DC
 		List<Double> valoresOriginais = new ArrayList<Double>();
 		for (String string : valores) {
@@ -43,17 +46,12 @@ public class TratamentoSinal {
 		if(ModuloProcessamento.dbValores) {
 			System.out.println("Valores: "+valoresSemNivelDC);	
 		}
-		valoresSemNivelDC = RemoveDC.remover(valoresSemNivelDC);
-		if(ModuloProcessamento.dbValores) {
-			System.out.println("Valores Rodada 2: "+valoresSemNivelDC);	
-		}
 		
 		//converter para corrente	
 		List<Double> valoresTratados = ConverterCorrente.converter(valoresSemNivelDC,ganhoSensorFase);
 		if(ModuloProcessamento.dbValorCorrente == true) {
 			System.out.println("Corrente: "+valoresTratados);	
 		}
-		
 		
 		return new Leitura(sensor,timestamp,volts,valoresTratados);
 	}

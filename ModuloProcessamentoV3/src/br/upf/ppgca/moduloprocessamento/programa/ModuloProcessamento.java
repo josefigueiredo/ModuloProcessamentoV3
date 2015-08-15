@@ -10,7 +10,7 @@ import br.upf.ppgca.moduloprocessamento.digitalSignalProcessing.ProcessamentoSin
 import br.upf.ppgca.moduloprocessamento.tratamentoSinal.TratamentoSinal;
 
 public class ModuloProcessamento extends Thread {
-	public static boolean dbValores,dbValorCorrente,dbRawData,dbAnaliseErros,dbReconstucaoFFT;
+	public static boolean dbValores,dbValorCorrente,dbValorTensao,dbRawData,dbAnaliseErros,dbReconstucaoFFT;
 	public static long  contaErros=0, contaAcertos=0;
 	private Socket conexao;
 
@@ -20,6 +20,7 @@ public class ModuloProcessamento extends Thread {
 		ModuloProcessamento.dbRawData = false; //habilita amostragem dos valores brutos lidos pelo socket
 		ModuloProcessamento.dbValores = false; //habilita mostrar valores Lidos Antes da conversão
 		ModuloProcessamento.dbValorCorrente = false; //habilita mostrar valores Convertidos para corrente
+		ModuloProcessamento.dbValorTensao = false; //habilita mostrar valores Convertidos para corrente
 		ModuloProcessamento.dbAnaliseErros = false; //habilita mostrar valores Convertidos para corrente
 		ModuloProcessamento.dbReconstucaoFFT= false; //habilita mostrar valores Convertidos para corrente
 
@@ -47,11 +48,10 @@ public class ModuloProcessamento extends Thread {
 		//aqui tenho que pegar a voltagem.... e ai tratar o ganho 
 		
 		
-		double ganhoFaseB = 54.85;
+		double ganhoFaseB = 6.1;
 		//este ganho foi calculado conforme planilha lendoTensão.ods [ganho = lido pelo arduino / amostrado multimetro RMS]  
-		int ganhoDiferencial = 467000;  // preciso de mais precisão neste ganho
+		int ganhoDiferencial = 59100;  // preciso de mais precisão neste ganho
 		int valorResistor = 224900;
-		double fatorCalculoTensao = (double)ganhoDiferencial  / (double) valorResistor;
 		
 		try {
 			Scanner scanner = new Scanner(conexao.getInputStream());
@@ -62,7 +62,7 @@ public class ModuloProcessamento extends Thread {
 				//System.out.println("fator "+fatorCalculoTensao);
 				
 				//Tratamento do sinal retorna um tipo Leitura, que será então processado em Processamento do sinal
-				ProcessamentoSinal.executar(TratamentoSinal.executarTratamentos(strRecebidaPeloSocket,ganhoFaseB, fatorCalculoTensao));				
+				ProcessamentoSinal.executar(TratamentoSinal.executarTratamentos(strRecebidaPeloSocket,ganhoFaseB, ganhoDiferencial,valorResistor));				
 				
 			}
 			//System.out.printf("Acertos: %d, Erros: %d \n",contaAmostras,contaAcertos, contaErros);
