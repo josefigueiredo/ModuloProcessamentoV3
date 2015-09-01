@@ -58,16 +58,16 @@ public class ModuloProcessamento extends Thread {
 
 			while (scanner.hasNext()) {
 				strRecebidaPeloSocket = scanner.nextLine();
-				//System.out.println(strRecebidaPeloSocket);
+				System.out.println(strRecebidaPeloSocket);
 				//System.out.println("fator "+fatorCalculoTensao);
 				
 				//Tratamento do sinal retorna um tipo Leitura, que será então processado em Processamento do sinal
-				ProcessamentoSinal.executar(TratamentoSinal.executarTratamentos(strRecebidaPeloSocket,ganhoFaseB, ganhoDiferencial,valorResistor));				
+				//ProcessamentoSinal.executar(TratamentoSinal.executarTratamentos(strRecebidaPeloSocket,ganhoFaseB, ganhoDiferencial,valorResistor));				
 				
 			}
 			//System.out.printf("Acertos: %d, Erros: %d \n",contaAmostras,contaAcertos, contaErros);
 			conexao.close();
-		} catch (IOException | SQLException e) {
+		} catch (IOException e) {
 			System.out.println("IOException: " + e);
 		}
 	}
