@@ -6,9 +6,21 @@ import br.upf.ppgca.moduloprocessamento.programa.ModuloProcessamento;
 import br.upf.ppgca.moduloprocessamento.tipos.Leitura;
 
 public class CalculoRMS {
-	private static double rmsAnterior;
-	private static double variacaoRMS;
-	/**
+	 /**
+	 * Calcular o RMS de uma leitura
+	 * 
+	 * @param leituraemProcessamento
+	 * @return O RMS de uma leitura
+	 */
+	public static Double calcularRMS(List<Double> valoresLidos) {
+		double sum = 0.0;
+		for (Double val : valoresLidos) {
+			sum += Math.pow(val, 2);
+		}
+		return Math.sqrt(sum) / Math.sqrt(valoresLidos.size());
+	}
+	
+/*	*//**
 	 * avaliarRMSMedidas: Avalia as amostras armazenadas na fila para saber se o
 	 * erro em relação à media é maior que um lmite
 	 * @param leiturasEmAnalise
@@ -16,15 +28,15 @@ public class CalculoRMS {
 	 * @param limiteNivelErro
 	 *            : Nível estabelecido para corte
 	 * @return resposta: True para RMS 'bom'; False para RMS 'ruim'
-	 */
+	 *//*
 	public static boolean analiseAmostras(List<Leitura> leiturasEmAnalise, double limiteNivelErro) {
 		// TODO Auto-generated method stub
 		List<Double> rmsIsolados = new ArrayList<Double>();
 		double rmsMedio = 0.0;
 		boolean resposta = false;
 		for (Leitura leitura : leiturasEmAnalise) {
-			rmsIsolados.add(CalculoRMS.calcularRMS(leitura));
-			rmsMedio += CalculoRMS.calcularRMS(leitura);
+			rmsIsolados.add(CalculoRMS.calcularRMS_old(leitura));
+			rmsMedio += CalculoRMS.calcularRMS_old(leitura);
 		}
 		rmsMedio /= leiturasEmAnalise.size();
 
@@ -39,7 +51,7 @@ public class CalculoRMS {
 				if (ModuloProcessamento.dbAnaliseErros) {
 					System.out.printf("Amostra descartada. Encontrado erro de:  %.2f\n ", erroEncontrado*100);
 					for (Leitura leitura : leiturasEmAnalise) {
-						System.out.println(leitura.getLeitura());
+						System.out.println(leitura.getValoresCorrenteLidos());
 					}
 				}
 				//se achou um erro acima do limite encerra esta execução e jár retorna false.
@@ -49,14 +61,14 @@ public class CalculoRMS {
 		return resposta;
 	}
 
-	/**
+	*//**
 	 * Calcular o RMS de uma leitura
 	 * 
 	 * @param leituraemProcessamento
 	 * @return O RMS de uma leitura
-	 */
-	public static double calcularRMS(Leitura leituraemProcessamento) {
-		List<Double> listaLeituras = leituraemProcessamento.getLeitura();
+	 *//*
+	public static double calcularRMS_old(Leitura leituraemProcessamento) {
+		List<Double> listaLeituras = leituraemProcessamento.getValoresCorrenteLidos();
 		double sum = 0.0;
 		for (Double val : listaLeituras) {
 			sum += Math.pow(val, 2);
@@ -64,7 +76,7 @@ public class CalculoRMS {
 		return Math.sqrt(sum) / Math.sqrt(listaLeituras.size());
 	}
 
-	/**
+	*//**
 	 * verificarGatilho: Testar se o RMS de uma Leitura sofreu modificação
 	 * (conforme um limite) em relação ao RMS anteriormente calculado
 	 * 
@@ -73,11 +85,11 @@ public class CalculoRMS {
 	 * @param limiteVariacaoRMS
 	 *            : Limite para disparar o gatilho
 	 * @return true para limite atingido; false para não atingido
-	 */
+	 *//*
 	public static boolean[] verificarGatilho(Leitura leitura, double limiteVariacaoRMS) {
 		// TODO Auto-generated method stub
 		boolean resposta[] = {false,false}; //[0] - PARA CHAMAR FFT, [1]-> PARA DIZER SE LIGA/DESLIGA
-		double rmsCalculado = CalculoRMS.calcularRMS(leitura);
+		double rmsCalculado = CalculoRMS.calcularRMS_old(leitura);
 		double variacao  = Math.abs(rmsCalculado - CalculoRMS.rmsAnterior);
 		if (Double.compare(variacao, limiteVariacaoRMS) > 0) { // variacao e maior que limite
 			if (Double.compare(rmsCalculado, CalculoRMS.rmsAnterior) > 0) {
@@ -95,15 +107,9 @@ public class CalculoRMS {
 		}
 		CalculoRMS.setVariacaoRMS(variacao);
 		return resposta;
-	}
+	}*/
 
-	public static double getVariacaoRMS() {
-		return variacaoRMS;
-	}
-
-	public static void setVariacaoRMS(double variacaoRMS) {
-		CalculoRMS.variacaoRMS = variacaoRMS;
-	}
+	
 
 
 	/*

@@ -7,33 +7,41 @@ import java.util.List;
 public class Leitura {
 	//nomeSenor deve identificar qual sensor foi usado para a medida (no caso poderemos ter muitos sensores)
 	private int CodigoSensor;
-	
-	//voltagem da rede no momento da leitura
-	private double volts;
-		
+	private char tipoEvento;
 	//este horiarioLeitura deve evoluir para um timestamp(para saber horario da leitura)
 	private Timestamp  horarioLeitura = new Timestamp(0);
 	//este horiarioLeitura deve evoluir para um timestamp(para saber horario da leitura)
 	//private int temperaturaAmbiente;
 	//leitura corresponde ao vetor de leituras enviado pelo modulo coleta
-	private List<Double> leitura = new ArrayList<Double>();
+	private List<Double> valoresCorrenteLidos = new ArrayList<Double>();
+	private List<Double> valoresTensaoLidos = new ArrayList<Double>();
 
-	public Leitura(int sensor, Timestamp horarioLeitura, Double volts, List<Double> leitura) {
+	public Leitura(int sensor, Timestamp horarioLeitura, char tipoEvento, List<Double> valoresCorrenteTratados, List<Double> valoresTensaoTratados) {
 		super();
 		this.setCodigoSensor(sensor);
 		this.setHorarioLeitura(horarioLeitura);
-		this.setVolts(volts);
-		this.leitura = leitura;
+		this.setTipoEvento(tipoEvento);
+		this.setValoresCorrenteLidos(valoresCorrenteTratados);
+		this.setValoresTensaoLidos(valoresTensaoTratados);
 	}
 
-	public List<Double> getLeitura() {
-		return leitura;
+	public List<Double> getValoresCorrenteLidos() {
+		return valoresCorrenteLidos;
 	}
 
-	public void setLeitura(List<Double> leitura) {
-		this.leitura = leitura;
+	public void setValoresCorrenteLidos(List<Double> leitura) {
+		this.valoresCorrenteLidos = leitura;
 	}
 
+	public List<Double> getValoresTensaoLidos() {
+		return valoresTensaoLidos;
+	}
+
+	public void setValoresTensaoLidos(List<Double> leitura) {
+		this.valoresTensaoLidos = leitura;
+	}
+
+	
 	public int  getCodigoSensor() {
 		return CodigoSensor;
 	}
@@ -50,11 +58,11 @@ public class Leitura {
 		this.horarioLeitura = horarioLeitura2;
 	}
 
-	public double getVolts() {
-		return volts;
+	public char getTipoEvento() {
+		return tipoEvento;
 	}
 
-	public void setVolts(double volts) {
-		this.volts = volts;
+	public void setTipoEvento(char tipoEvento) {
+		this.tipoEvento = tipoEvento;
 	}
-}
+	}

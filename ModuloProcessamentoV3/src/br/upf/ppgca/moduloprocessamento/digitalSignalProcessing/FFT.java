@@ -18,18 +18,15 @@ public class FFT {
 	 * converteToDouble: Método que recebe uma leitura feita e devolve um array
 	 * de double com os valores de corrente medidos.
 	 * 
-	 * @param leituraCap
+	 * @param valoresLidos
 	 *            : é uma Leitura, que contém as medidas (armazenadas em um
 	 *            List<Double>).
 	 * @return: Array de double com as correntes medidas.
 	 */
-	private double[] converteToDouble(Leitura leituraCap) {
-		List<Double> tmp = leituraCap.getLeitura();
-		// converter de list para double[] //não consegui utilizar oo toArray
-		// direto
-		double[] valores = new double[tmp.size()];
-		for (int i = 0; i < tmp.size(); i++) {
-			valores[i] = tmp.get(i);
+	private double[] converteToDouble(List<Double> valoresLidos) {
+		double[] valores = new double[valoresLidos.size()];
+		for (int i = 0; i < valoresLidos.size(); i++) {
+			valores[i] = valoresLidos.get(i);
 		}
 		return valores;
 	}
@@ -61,7 +58,7 @@ public class FFT {
 	 * @return: retorna um array de doubles com os valores das harmônicas
 	 *          econtradas
 	 */
-	private double[] calculaHarmonicas(Complex[] res) {
+	public double[] calculaHarmonicas(Complex[] res) {
 		int i = 0;
 		double[] resultado = new double[res.length];
 		for (Complex complex : res) {
@@ -113,37 +110,20 @@ public class FFT {
 		return ondaReconstruida;
 	}
 
-	/**
-	 * Aplicar a FFT na Leitura Caputrada
-	 * 
-	 * @param leituraCapturada
-	 * @return
-	 */
-	public Complex[] aplicaFFT(Leitura leituraCapturada) {
-		double[] formaOriginal = converteToDouble(leituraCapturada);
-		if (ModuloProcessamento.dbReconstucaoFFT) {
-			System.out.println("->Original");
-			for (double d : formaOriginal) {
-				System.out.printf("%.2f \n", d);}
-		}
-		Complex[] resultadoFFT = calculaFFT(formaOriginal);
-		return resultadoFFT;
-	}
-	
-
-	/**
+/*	* obsoleto
+ * //**
 	 * Metodo que calcula a Harmonica de uma captura. 
 	 * Faz uso dos métodos converteToDouble e calculaFFT e calculaHarmonicas
 	 * @param leituraCapturada - é uma leitura
 	 * @return harmonicasAgora - é um array de harmonicas
-	 */
+	 *//*
 	public double[] calcHarmoncias(Leitura leituraCapturada) {
 		Complex[] resFFT = calculaFFT(converteToDouble(leituraCapturada));
 		this.harmonicasAgora = new double[resFFT.length];
 		this.harmonicasDiferenca = new double[resFFT.length];
 		this.harmonicasAgora = calculaHarmonicas(resFFT);
 		return this.harmonicasAgora;
-	}
+	}*/
 
 	/**
 	 * Calcula a diferença entre o conjunto de harmonicas calculado agora e o que tinha no evento anterior. 
@@ -163,6 +143,23 @@ public class FFT {
 			FFT.harmonicasAnteriores = new double[this.harmonicasAgora.length];
 		}
 		return null;
+	}
+
+	/**
+	 * Aplicar a FFT na Leitura Caputrada
+	 * 
+	 * @param leituraCapturada
+	 * @return
+	 */
+	public Complex[] aplicaFFT(List<Double> valoresLidos) {
+		double[] formaOriginal = converteToDouble(valoresLidos);
+		if (ModuloProcessamento.dbReconstucaoFFT) {
+			System.out.println("->Original");
+			for (double d : formaOriginal) {
+				System.out.printf("%.2f \n", d);}
+		}
+		Complex[] resultadoFFT = calculaFFT(formaOriginal);
+		return resultadoFFT;
 	}
 	
 	
