@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import br.upf.ppgca.moduloprocessamento.tipos.Evento;
 import br.upf.ppgca.moduloprocessamento.tipos.Leitura;
 
 public class EventoDAO {
@@ -13,16 +14,17 @@ public class EventoDAO {
 	public EventoDAO(Connection con) {
 		this.con = con;
 	}
-
-	public Integer inserir(Leitura toInsert, Double rmsCalculado, boolean tipo) {
-		String sqlToLeitura = "INSERT INTO evento(rms,tipo,volts,datahora,sensor_cod) VALUES (?,?,?,?,?)";
+	
+	public Integer inserir(Evento evento) {
+		String sqlToLeitura = "INSERT INTO evento(datahora,sensor_cod,tipo,volts_rms,corrente_rms,fi) VALUES (?,?,?,?,?,?)";
 		Integer event_cod = null;
 		try(PreparedStatement stmp = con.prepareStatement(sqlToLeitura,Statement.RETURN_GENERATED_KEYS)){
-			stmp.setDouble(1, rmsCalculado);
-			stmp.setBoolean(2, tipo);
-			stmp.setDouble(3, toInsert.getVolts());
-			stmp.setTimestamp(4, toInsert.getHorarioLeitura());
-			stmp.setInt(5, toInsert.getCodigoSensor());
+			stmp.setTimestamp(1, evento.getHorarioLeitura());
+			stmp.setInt(2, evento.getCodigoSensor());
+			stmp.setString(3, Character.toString(evento.getTipoEvento())); //converto de char para String para adequar ao PreparedStatement
+			stmp.setDouble(4, evento.getVoltsRMS());
+			stmp.setDouble(5, evento.getCorrenteRMS());
+			stmp.setDouble(6, evento.getFi());
 			stmp.execute();
 			try(ResultSet res = stmp.getGeneratedKeys()){
 				if(res.next()) {
@@ -34,8 +36,6 @@ public class EventoDAO {
 		}
 		return event_cod;
 	}
-
-
 
 	/**
 	 * Consulta os registros que são maiores que a última leitura feita e devolve um resultset
@@ -58,4 +58,6 @@ public class EventoDAO {
 		}
 		return null;
 	}
+
+
 }

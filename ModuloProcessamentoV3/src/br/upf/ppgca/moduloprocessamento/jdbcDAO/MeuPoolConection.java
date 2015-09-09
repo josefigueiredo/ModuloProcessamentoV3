@@ -12,7 +12,7 @@ public class MeuPoolConection {
 
 	public MeuPoolConection() {
 		JDBCPool pool = new JDBCPool();
-		pool.setUrl("jdbc:hsqldb:hsql://localhost/bancoV3");
+		pool.setUrl("jdbc:hsqldb:hsql://localhost/bancoV4");
 		pool.setUser("SA");
 		pool.setPassword("");
 		this.dataSource = pool;

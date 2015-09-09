@@ -29,8 +29,9 @@ public class TratamentoSinal {
 		// 1 -> leitura tensão
 		// 2 -> codigo sensor corrente
 		// 3 -> leitura corrente
-
-		tipoEvento = partes[0].charAt(0); // primeiro campo enviado pelo arduino corresponde tipo evento l-ligado, d-desligado.
+		
+		// primeiro campo enviado pelo arduino corresponde tipo evento l-ligado, d-desligado.
+		tipoEvento = partes[0].charAt(0);
 		codSensorCorrente = Integer.parseInt(partes[2].toString()); // terceiro campo enviado pelo arduino corresponde ao sensor.
 		// converte para voltagem da leitura
 		horarioColeta = new Timestamp(agora.getTime());
