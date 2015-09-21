@@ -10,7 +10,7 @@ import digitalSignalProcessing.ProcessamentoSinal;
 import tratamentoSinal.TratamentoSinal;
 
 public class ModuloProcessamento extends Thread {
-	public static boolean dbValores,dbValorCorrente,dbValorTensao,dbRawData,dbAnaliseErros,dbReconstucaoFFT,dbValoresRMS;
+	public static boolean dbValores,dbValorCorrente,dbValorTensao,dbRawData,dbAnaliseErros,dbReconstucaoFFT,dbValoresRMS,dbCalculoFI;
 	public static long  contaErros=0, contaAcertos=0;
 	private Socket conexao;
 
@@ -24,6 +24,7 @@ public class ModuloProcessamento extends Thread {
 		ModuloProcessamento.dbValoresRMS = true; //habilita mostrar valores calculados de RMS
 		ModuloProcessamento.dbAnaliseErros = false; //habilita mostrar valores Convertidos para corrente
 		ModuloProcessamento.dbReconstucaoFFT= false; //habilita mostrar valores Convertidos para corrente
+		ModuloProcessamento.dbCalculoFI= false; //habilita mostrar valores Debug do Cálculo do FI
 
 		try {
 			ServerSocket socketServidor = new ServerSocket(PORTA);

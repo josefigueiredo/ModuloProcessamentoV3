@@ -1,9 +1,5 @@
-/ConsultaEnergia/
-/analisadorResultados/
-/commons-math3-3.5.jar
 /digitalSignalProcessing/
 /jdbcDAO/
-/modelo/
+/consultaEnergia/
 /programa/
-/testes/
-/tratamentoSinal/
+/modelo/

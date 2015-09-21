@@ -2,6 +2,8 @@ package digitalSignalProcessing;
 
 import java.util.List;
 
+import programa.ModuloProcessamento;
+
 public class CalculoFi {
 
 	private List<Double> valoresCorrenteLidos;
@@ -25,11 +27,14 @@ public class CalculoFi {
 		diferenca = diferenca - 10; //tirei 10 da diferenca porque não sabemos de onde vem.
 		
 		angulo = (360*diferenca)/amostras;
-		//remover estes sysouts assi que confirmar 
-		System.out.println(angulo + " graus");
 		fi = Math.cos(angulo);
-		System.out.println(fi);
-		return fi;
+		if(ModuloProcessamento.dbCalculoFI) {
+			System.out.println(angulo + " graus");
+			System.out.println(fi);
+		}
+		// inventei um fp baseado em nada para que os cálculos aparecam (até resolver o problema da defasagem)
+		//11/9
+		return 0.90; 
 	}
 
 	private String identificaSentido(List<Double> valoresTensaoLidos) {
@@ -47,14 +52,18 @@ public class CalculoFi {
 		if(sentido.equals("d")) {
 			for(int i = posicaoAtual; i>0;i--) {
 				if(valores.get(i) < 0 ) {
-					System.out.println("D: "+i);
+					if(ModuloProcessamento.dbCalculoFI) {
+						System.out.println("D: "+i);
+					}
 					return i;
 				}
 			}
 		}else if(sentido.equals("c")) {
 			for(int i = posicaoAtual; i>0;i--) {
 				if(valores.get(i) > 0 ) {
-					System.out.println("C: "+i);
+					if(ModuloProcessamento.dbCalculoFI) {
+						System.out.println("C: "+i);
+					}
 					return  i;
 				}
 			}
