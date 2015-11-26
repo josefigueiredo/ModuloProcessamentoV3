@@ -10,8 +10,9 @@ import digitalSignalProcessing.ProcessamentoSinal;
 import tratamentoSinal.TratamentoSinal;
 
 public class ModuloProcessamento extends Thread {
-	public static boolean dbValores,dbValorCorrente,dbValorTensao,dbRawData,dbAnaliseErros,dbReconstucaoFFT,dbValoresRMS,dbCalculoFI;
-	public static long  contaErros=0, contaAcertos=0;
+	public static boolean dbValores,dbValorCorrente,dbValorTensao,dbRawData,dbAnaliseErros,dbReconstucaoFFT,dbValoresRMS,dbCalculoFI,dbCalculoConsumo;
+	public static long  contaErros=0, contaAcertos=0;;
+	public static final int capacidadeDisjuntor = 10; //estabelecido isto apenas para testes (simboliza um disjuntor de 10A) 
 	private Socket conexao;
 
 	
@@ -25,6 +26,7 @@ public class ModuloProcessamento extends Thread {
 		ModuloProcessamento.dbAnaliseErros = false; //habilita mostrar valores Convertidos para corrente
 		ModuloProcessamento.dbReconstucaoFFT= false; //habilita mostrar valores Convertidos para corrente
 		ModuloProcessamento.dbCalculoFI= false; //habilita mostrar valores Debug do Cálculo do FI
+		ModuloProcessamento.dbCalculoConsumo = false; //habilita mostrar valores Debug do Cálculo do Consumo
 
 		try {
 			ServerSocket socketServidor = new ServerSocket(PORTA);
@@ -49,8 +51,8 @@ public class ModuloProcessamento extends Thread {
 		String strRecebidaPeloSocket;
 		//aqui tenho que pegar a voltagem.... e ai tratar o ganho 
 				
-		double ganhoSensorA = 6.1;
-		double ganhoSensormA = 184.04;
+		double ganhoSensorA = 9;
+		double ganhoSensormA = 150;
 		//este ganho foi calculado conforme planilha lendoTensão.ods [ganho = lido pelo arduino / amostrado multimetro RMS]  
 		int ganhoSensorV = 79850;  // preciso de mais precisão neste ganho
 		int valorResistor = 224900;

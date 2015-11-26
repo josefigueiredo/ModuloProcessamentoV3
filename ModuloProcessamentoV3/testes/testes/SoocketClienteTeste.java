@@ -35,7 +35,7 @@ public class SoocketClienteTeste {
 		//}
 
 		/*saida.close();
-		teclado.close();
-		cliente.close();*/
+		teclado.close();*/
+		cliente.close();
 	}
 }

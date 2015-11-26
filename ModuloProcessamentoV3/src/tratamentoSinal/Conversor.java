@@ -10,7 +10,7 @@ public class Conversor {
 
 		// TODO Auto-generated method stub
 		for (Double val : valoresLidosSemDC) {
-			listaTemporaria.add(val / ganho);
+			listaTemporaria.add(Arredondar.exec((val / ganho),3));
 		}
 		return listaTemporaria;
 	}
@@ -21,7 +21,7 @@ public class Conversor {
 
 		// TODO Auto-generated method stub
 		for (Double val : valoresLidosSemDC) {
-			listaTemporaria.add((val / ganho)*valResistor);
+			listaTemporaria.add(Arredondar.exec(((val / ganho)*valResistor),1));
 		}
 		return listaTemporaria;
 	}

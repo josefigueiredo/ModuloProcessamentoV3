@@ -3,6 +3,8 @@ package modelo;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import tratamentoSinal.Arredondar;
+
 public class Consumo {
 	private Integer event_cod;
 	private Timestamp fimEvento;
@@ -46,7 +48,7 @@ public class Consumo {
 	 * @param kw the kw to set
 	 */
 	public void setKw(double kw) {
-		this.kw = kw;
+		this.kw = Arredondar.exec(kw, 4);
 	}
 
 	/**
@@ -102,7 +104,7 @@ public class Consumo {
 	 * @param deltaT the deltaT to set
 	 */
 	public void setDeltaT(double deltaT) {
-		this.deltaT = deltaT;
+		this.deltaT = Arredondar.exec(deltaT, 6);
 	}
 
 }

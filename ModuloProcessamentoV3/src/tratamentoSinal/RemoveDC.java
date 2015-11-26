@@ -16,7 +16,7 @@ public class RemoveDC {
 		double media = (double)sum/valores.size();
 		//System.out.println("Media:"+media);
 		for (Double val: valores) {
-			valoresSemDC.add(val - media);
+			valoresSemDC.add(Arredondar.exec(val - media, 2));
 		}
 		return valoresSemDC;
 	}

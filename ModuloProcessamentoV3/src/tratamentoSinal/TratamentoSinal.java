@@ -46,12 +46,12 @@ public class TratamentoSinal {
 			valoresCorrenteOriginais.add(Double.parseDouble(string));
 		}
 		if (ModuloProcessamento.dbRawData) {
-			System.out.println("RawData:" + valoresCorrenteOriginais);
+			System.out.println("RawData (A):" + valoresCorrenteOriginais);
 		}
 		// remover o nível DC Corrente (isto equivale a remover o OFFSET tmb)
 		List<Double> valoresCorrenteSemDC = RemoveDC.remover(valoresCorrenteOriginais);
 		if (ModuloProcessamento.dbValores) {
-			System.out.println("Valores: " + valoresCorrenteSemDC);
+			System.out.println("Valores (A): " + valoresCorrenteSemDC);
 		}
 
 		// converter TENSAO para double antes de remover DC
@@ -60,12 +60,12 @@ public class TratamentoSinal {
 			valoresTensaoOriginais.add(Double.parseDouble(string));
 		}
 		if (ModuloProcessamento.dbRawData) {
-			System.out.println("RawData:" + valoresTensaoOriginais);
+			System.out.println("RawData (V):" + valoresTensaoOriginais);
 		}
 		// remover o nível DC Tensao (isto equivale a remover o OFFSET tmb)
 		List<Double> valoresTensaoSemDC = RemoveDC.remover(valoresTensaoOriginais);
 		if (ModuloProcessamento.dbValores) {
-			System.out.println("Valores: " + valoresTensaoSemDC);
+			System.out.println("Valores (V): " + valoresTensaoSemDC);
 		}
 		
 		// converter para corrente - ajusta o ganho conforme o codigo do sensor.
