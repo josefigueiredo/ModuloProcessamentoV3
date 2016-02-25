@@ -3,6 +3,8 @@ package tratamentoSinal;
 import java.util.ArrayList;
 import java.util.List;
 
+import tratamentoSinal.AjustarNumero;
+
 public class RemoveDC {
 
 	public static List<Double> remover(List<Double> valores) {
@@ -16,7 +18,7 @@ public class RemoveDC {
 		double media = (double)sum/valores.size();
 		//System.out.println("Media:"+media);
 		for (Double val: valores) {
-			valoresSemDC.add(Arredondar.exec(val - media, 2));
+			valoresSemDC.add(AjustarNumero.setScale(val - media, 2));
 		}
 		return valoresSemDC;
 	}

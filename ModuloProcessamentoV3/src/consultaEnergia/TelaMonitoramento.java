@@ -21,6 +21,9 @@ import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
 import org.apache.commons.math3.util.ContinuedFraction;
+
+import digitalSignalProcessing.CalculoRMS;
+import tratamentoSinal.AjustarNumero;
 import javax.swing.JTable;
 import java.awt.Panel;
 import java.awt.Rectangle;
@@ -143,6 +146,20 @@ public class TelaMonitoramento extends JFrame {//implements ActionListener{
 		// TODO Auto-generated method stub
 		return String.format("%.2f", val);  
 	}
+	
+	private String formatarDecimais(Integer casas, Double val) {
+		switch (casas) {
+		case 0:
+			return String.format("%.0f", val);
+		case 2:
+			return String.format("%.2f", val);
+		case 3:
+			return String.format("%.3f", val);
+		case 4:
+			return String.format("%.4f", val);
+		}
+		return null;
+	}
 
 	private void atualizaValores() {
 		Calendar agora = Calendar.getInstance();
@@ -150,12 +167,20 @@ public class TelaMonitoramento extends JFrame {//implements ActionListener{
 		snapshot.atualizarConsulta(); 
 		
 		lblMsgValoresAgora.setText("Último evento em: "+formataData(snapshot.getUltimoEvento().getHorarioLeitura()));
-		lblVolts.setText("Tensão: "+formata2Decimais(snapshot.getUltimoEvento().getVoltsRMS())+" V");
-		lblCorrente.setText("Corrente: "+formata2Decimais(snapshot.getUltimoEvento().getCorrenteRMS())+" A");
-		lblFatorPotencia.setText("Fator de Potência: "+formata2Decimais(snapshot.getUltimoEvento().getFi()));
-		lblPotencia.setText("Potência: "+formata2Decimais(snapshot.getUltimoEvento().getPotencia())+" VA");		
-		lblEnergiaGastaDia.setText("Consumo no dia: "+formata4Decimais(snapshot.getEnergiaDia())+" kWh");
-		lblEnergiaGastaMes.setText("Consumo no mês: "+formata4Decimais(snapshot.getEnergiaMes())+" kWh" );
+		lblVolts.setText("Tensão: "+formatarDecimais(0,snapshot.getUltimoEvento().getVoltsRMS())+" V");
+		//lblVolts.setText("Tensão: "+snapshot.getUltimoEvento().getVoltsRMS()+" V");
+		//lblCorrente.setText("Corrente: "+formatarDecimais(3,snapshot.getUltimoEvento().getCorrenteRMS())+" A");
+		lblCorrente.setText("Corrente: "+snapshot.getUltimoEvento().getCorrenteRMS()+" A");
+		lblFatorPotencia.setText("Fator de Potência: "+formatarDecimais(2,snapshot.getUltimoEvento().getFi()));
+		
+				
+		double potencia = AjustarNumero.ajustaEscala(AjustarNumero.setScale(snapshot.getUltimoEvento().getPotencia(), 4));
+		lblPotencia.setText("Potência: "+potencia+" VA");
+		//lblPotencia.setText("Potência: "+formatarDecimais(2,snapshot.getUltimoEvento().getPotencia())+" VA");
+		//lblPotencia.setText("Potência: "+ AjustarNumero.setScale(snapshot.getUltimoEvento().getPotencia()), 3);
+		
+		lblEnergiaGastaDia.setText("Consumo no dia: "+formatarDecimais(4,snapshot.getEnergiaDia())+" kWh");
+		lblEnergiaGastaMes.setText("Consumo no mês: "+formatarDecimais(4,snapshot.getEnergiaMes())+" kWh" );
 		lblContadorPicosTensao.setText("Eventos com sobretensao: "+snapshot.getContadorPicosTensao());
 		lblContadorPicosNegativosTensao.setText("-> picos positivos: "+snapshot.getContadorSobreTensaoP());
 		lblContadorPicosPositivosTensao.setText("-> picos negativos: "+snapshot.getContadorSobreTensaoN());

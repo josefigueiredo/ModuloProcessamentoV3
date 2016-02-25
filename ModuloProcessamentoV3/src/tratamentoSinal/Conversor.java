@@ -3,6 +3,8 @@ package tratamentoSinal;
 import java.util.ArrayList;
 import java.util.List;
 
+import tratamentoSinal.AjustarNumero;
+
 public class Conversor {
 	public static List<Double> converterCorrente(List<Double> valoresLidosSemDC, double ganho) {
 		// TODO Auto-generated method stub
@@ -10,7 +12,7 @@ public class Conversor {
 
 		// TODO Auto-generated method stub
 		for (Double val : valoresLidosSemDC) {
-			listaTemporaria.add(Arredondar.exec((val / ganho),3));
+			listaTemporaria.add(AjustarNumero.setScale((val / ganho),3));
 		}
 		return listaTemporaria;
 	}
@@ -21,7 +23,7 @@ public class Conversor {
 
 		// TODO Auto-generated method stub
 		for (Double val : valoresLidosSemDC) {
-			listaTemporaria.add(Arredondar.exec(((val / ganho)*valResistor),1));
+			listaTemporaria.add(AjustarNumero.setScale(((val / ganho)*valResistor),1));
 		}
 		return listaTemporaria;
 	}

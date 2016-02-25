@@ -54,7 +54,7 @@ public class ModuloProcessamento extends Thread {
 		double ganhoSensorA = 9;
 		double ganhoSensormA = 150;
 		//este ganho foi calculado conforme planilha lendoTensão.ods [ganho = lido pelo arduino / amostrado multimetro RMS]  
-		int ganhoSensorV = 79850;  // preciso de mais precisão neste ganho
+		int ganhoSensorV = 75850;  // preciso de mais precisão neste ganho
 		int valorResistor = 224900;
 		
 		try {

@@ -27,7 +27,8 @@ import modelo.SobreCorrente;
 import modelo.SobreTensao;
 import modelo.UltimoEvento;
 import programa.ModuloProcessamento;
-import tratamentoSinal.Arredondar;
+import tratamentoSinal.AjustarNumero;
+import tratamentoSinal.AjustarNumero;;
 
 public class ProcessamentoSinal {
 	// para pegar o valor do meio.;
@@ -39,8 +40,14 @@ public class ProcessamentoSinal {
 
 	public static void executar(Leitura leituraCapturada) throws SQLException {
 		// calcula o RMS da amostra e mostra na tela
-		Double correnteRMS = Arredondar.exec(CalculoRMS.calcularRMS(leituraCapturada.getValoresCorrenteLidos()), 3);
-		Double tensaoRMS = Arredondar.exec(CalculoRMS.calcularRMS(leituraCapturada.getValoresTensaoLidos()), 1);
+		//Double correnteRMS = AjustarNumero.setScale(CalculoRMS.calcularRMS(leituraCapturada.getValoresCorrenteLidos()),3);
+		Double correnteRMS = AjustarNumero.ajustaEscala(AjustarNumero.setScale(CalculoRMS.calcularRMS(leituraCapturada.getValoresCorrenteLidos()),3));
+		// se valor da corrrente RMS é menor que 10mA então considera 0 (resolver o problema de quando é desligado tudo... tava pegando corrente RMS de 0,001 
+		if(correnteRMS < 0.010) {
+			correnteRMS = 0.0;
+		}
+		//Double tensaoRMS = AjustarNumero.setScale(CalculoRMS.calcularRMS(leituraCapturada.getValoresTensaoLidos()), 0);
+		Double tensaoRMS = AjustarNumero.ajustaEscala(AjustarNumero.setScale(CalculoRMS.calcularRMS(leituraCapturada.getValoresTensaoLidos()), 0));
 		if (ModuloProcessamento.dbValoresRMS == true) {
 			System.out.println("Tensão RMS no evento: "+tensaoRMS);
 			System.out.println("Corrente RMS do evento: "+correnteRMS);
@@ -55,10 +62,9 @@ public class ProcessamentoSinal {
 
 			// calculo do fi - resultado é armazenado na tabela do evento
 			CalculoFi fi = new CalculoFi(leituraCapturada.getValoresCorrenteLidos(),
-					leituraCapturada.getValoresTensaoLidos());
-
+					leituraCapturada.getValoresTensaoLidos(),correnteRMS);
 			Evento eventoAgora = new Evento(leituraCapturada.getHorarioLeitura(), leituraCapturada.getCodigoSensor(),
-					leituraCapturada.getTipoEvento(), tensaoRMS, correnteRMS, fi.calcular());
+					leituraCapturada.getTipoEvento(), tensaoRMS, correnteRMS, AjustarNumero.setScale(new Double(fi.calcular()),2));
 			EventoDAO eventoDAO = new EventoDAO(con);
 			Integer event_cod = eventoDAO.inserir(eventoAgora);
 
@@ -114,7 +120,8 @@ public class ProcessamentoSinal {
 			ultimoEvtDao.updateUltimoInserido(ultimoEvt);
 
 			con.commit();
-			System.out.println("Feito inserção de evento...");
+			System.out.print("Inserido evento: "); System.out.println(event_cod);
+			System.out.println("-------------------------------.");
 		}
 	}
 

@@ -5,7 +5,6 @@ import java.util.List;
 
 import modelo.Leitura;
 import programa.ModuloProcessamento;
-import tratamentoSinal.Arredondar;
 
 public class CalculoRMS {
 	 /**
